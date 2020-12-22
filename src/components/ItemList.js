@@ -14,4 +14,4 @@ const ITEMS_QUERY = gql `{
 
 const DELETE_QUERY = gql `{
     mutation DeleteItem($id)
-}`
+}` 
