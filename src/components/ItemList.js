@@ -21,7 +21,7 @@ const DELETE_QUERY = gql `
 `;
 
 export function ItemList(){
-    const { data, loading } useQuery(ITEMS_QUERY);
+    const { data, loading } = useQuery(ITEMS_QUERY);
     const [deleteItem, { loading: deleteLoading }] = useMutation(DELETE_QUERY, { 
     refetchQueries: [{ query: ITEMS_QUERY }],
 });
@@ -47,5 +47,5 @@ return(
             );
         })}
     </ul>
-)
+);
 }

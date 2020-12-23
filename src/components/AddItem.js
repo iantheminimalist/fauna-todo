@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import gql from 'graphql-tag'
 import { useMutation } from "@apollo/react-hooks";
 
-const CREATE_ITEM = gql`mutuation CreateItem($data: ItemInput!){
+const CREATE_ITEM = gql`mutation CreateItem($data: ItemInput!){
     createItem(data: $data){
         _id
     }

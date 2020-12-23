@@ -1,6 +1,9 @@
 import React from 'react';
 import { ApolloProvider } from '@apollo/client';
 import { client } from './client';
+import { AddItem } from "./components/AddItem";
+import { ItemList } from "./components/ItemList";
+
 
 function App() {
   return (
@@ -8,7 +11,8 @@ function App() {
       <div style={{ padding: '5px' }}>
       <h3>My Todo List</h3>
       <div>
-        items to get loaded here
+        <AddItem />
+        <ItemList />
       </div>
       </div>
 
