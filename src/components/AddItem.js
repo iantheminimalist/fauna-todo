@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import gql from 'graphql-tag'
 import { useMutation } from "@apollo/react-hooks";
 
-const CREATE_ITEM = gql`mutation CreateItem($data: ItemInput!){
+const CREATE_ITEM = gql`
+    mutation CreateItem($data: ItemInput!){
     createItem(data: $data){
         _id
     }
@@ -33,7 +34,7 @@ export function AddItem(){
         return (
             <form onSubmit={(e) => {
                 e.preventDefault();
-                createItem({ variables: {data: {name: newItemName}}});
+                createItem({ variables: {data: {name: newItemName , isComplete: false }}});
             }} 
             >
             <label>

@@ -7,6 +7,7 @@ const ITEMS_QUERY = gql `{
         data{
             _id
             name
+            isComplete
         }
     }
 }
@@ -20,22 +21,59 @@ const DELETE_QUERY = gql `
     }
 `;
 
+const MARKED_QUERY = gql`
+mutation UpdateItem($id: ID!, $isComplete: Boolean!) {
+    updateItem(id: $id, data: { isComplete: $isComplete }) {
+      _id
+      isComplete
+    }
+  }
+`;
+
 export function ItemList(){
     const { data, loading } = useQuery(ITEMS_QUERY);
+    
     const [deleteItem, { loading: deleteLoading }] = useMutation(DELETE_QUERY, { 
     refetchQueries: [{ query: ITEMS_QUERY }],
-});
-if(loading){
-    return <div>Loading...</div>
-}
+    });
+
+    const [updateItem, {loading: updateLoading }] = useMutation(MARKED_QUERY);
+    
+    
+    if(loading){
+        return <div>Loading...</div>
+    }
+
+
+
+
 return(
     <ul>
         {data.allItems.data.map((item) => {
+            const labelStyles = item.isComplete
+            ? {style: {textDecoration: "line-through" }}
+            : {};
+
             return(
                 <li key={item.id}>
-                    {item.name}{""}
+                    <span {...labelStyles}>{item.name}{""}</span>
+
                     <button
-                        disabled={deleteLoading}
+                        disabled={ deleteLoading || updateLoading }
+                        style={{ marginRight: "5px" }}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            updateItem({
+                                variables: {id: item._id, isComplete: !item.isComplete },
+                            });
+                            }}
+                    >
+                        {item.isComplete ? "Mark Incomplete" : "Mark Complete" }
+                    </button>
+
+                    <button
+                        disabled={deleteLoading || updateLoading}
+                        style={{marginRight: "5px" }}
                         onClick={ (e) => {
                             e.preventDefault();
                             deleteItem({ variables: {id: item._id} });
